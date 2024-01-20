@@ -17,8 +17,28 @@ Things to consider:
 
   - Control flow
 
-    Building a CFG and generating diff between individual branches of it may also improve context awareness.
+    Building a control flow graph and generating diff between individual branches of it may also improve context awareness.
 
 ## 2. Analyze edit script
 
 Diff produces an edit script consisting of [4 operation types](https://javadoc.io/static/io.github.java-diff-utils/java-diff-utils/4.12/com/github/difflib/patch/DeltaType.html) which, in combination with context from original insn list, can be used to generate a mixin equivalent of a specific part of the script.
+
+### 2.1. Insertions
+
+The easiest to handle.
+
+Thanks to stack grouping and the way histogram diff seems to be working so far, insertions should almost always be a simple `@Inject` with some context from the target method through locals capture (MixinExtras?), unless they alter control flow in an incompatible way, which has to be determined earlier on when building the control flow graph.
+
+### 2.2. Changes
+
+The harder to handle.
+
+Change is incredibly ambiguous when it comes to generating a mixin. Some cases are easy, like a changed LDC instruction, which would just result in a `@ModifyConstant`, or a changed method/field access, which would result in a `@Redirect`.
+
+But, due to stack grouping and the way histogram diff works, changes are grouped in a very large range, while "redirector" mixins are usually targeting very specific instructions, which means we have to run a more thorough diff through each changed group to identify which mixins can be generated to replicate the changes.
+
+### 2.3. Deletions
+
+Pretty much impossible to handle.
+
+Unless it's a simple method/field access removal, there isn't really a way to replicate deletions with mixins.
