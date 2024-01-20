@@ -1,10 +1,8 @@
-package net.mine_diver.magnummerge;
+package net.mine_diver.magnummerge.test;
 
-public class ModifiedCode {
+public class OriginalCode {
     public static void main(String[] args) {
         System.out.println("Hello, world!");
-
-        System.out.println("Test message");
 
         int a = 0;
         int b = 1;
