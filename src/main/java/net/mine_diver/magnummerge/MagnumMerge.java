@@ -1,7 +1,7 @@
 package net.mine_diver.magnummerge;
 
 import com.github.difflib.algorithm.DiffAlgorithmI;
-import com.github.difflib.algorithm.jgit.HistogramDiff;
+import com.github.difflib.algorithm.myers.MeyersDiff;
 import net.mine_diver.magnummerge.util.DiffableInsnNode;
 import net.mine_diver.magnummerge.util.DiffableInsnNodeGroup;
 import net.mine_diver.magnummerge.visitor.StackGroupingVisitor;
@@ -16,7 +16,7 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 public class MagnumMerge {
-    private static final DiffAlgorithmI<DiffableInsnNodeGroup> GROUP_DIFF = new HistogramDiff<>();
+    private static final DiffAlgorithmI<DiffableInsnNodeGroup> GROUP_DIFF = new MeyersDiff<>();
 
     private static List<MethodNode> generateHandlers(
             ClassNode originalClass, ClassNode modifiedClass,
