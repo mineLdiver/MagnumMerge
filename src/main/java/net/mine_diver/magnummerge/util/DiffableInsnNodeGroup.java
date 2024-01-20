@@ -3,9 +3,7 @@ package net.mine_diver.magnummerge.util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiffableInsnNodeGroup {
-    private final List<DiffableInsnNode> insns;
-
+public record DiffableInsnNodeGroup(List<DiffableInsnNode> insns) {
     public DiffableInsnNodeGroup(List<DiffableInsnNode> insns) {
         this.insns = new ArrayList<>(insns);
     }
